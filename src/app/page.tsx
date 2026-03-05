@@ -8,28 +8,14 @@ export default function Home() {
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
   const [gallery, setGallery] = useState<GalleryImage[]>([]);
   const [loading, setLoading] = useState(true);
+  const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
     async function fetchData() {
       try {
-        // Fetch events
-        const { data: eventsData } = await supabase
-          .from("events")
-          .select("*")
-          .order("date", { ascending: true });
-
-        // Fetch testimonials
-        const { data: testimonialsData } = await supabase
-          .from("testimonials")
-          .select("*")
-          .order("date", { ascending: false })
-          .limit(6);
-
-        // Fetch gallery
-        const { data: galleryData } = await supabase
-          .from("gallery")
-          .select("*")
-          .order("created_at", { ascending: false });
+        const { data: eventsData } = await supabase.from("events").select("*").order("date", { ascending: true });
+        const { data: testimonialsData } = await supabase.from("testimonials").select("*").order("date", { ascending: false }).limit(6);
+        const { data: galleryData } = await supabase.from("gallery").select("*").order("created_at", { ascending: false });
 
         if (eventsData) setEvents(eventsData);
         if (testimonialsData) setTestimonials(testimonialsData);
@@ -42,128 +28,206 @@ export default function Home() {
     }
 
     fetchData();
+
+    // Scroll effect for navbar
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 100);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (
-    <main className="min-h-screen bg-[#0a0a0a] text-[#f5f5f5]">
+    <main className="min-h-screen bg-black text-white">
       {/* Navigation */}
-      <nav className="fixed top-0 w-full z-50 bg-[#0a0a0a]/95 backdrop-blur border-b border-[#d4af37]/20">
-        <div className="max-w-7xl mx-auto px-6 py-4">
+      <nav className={`fixed top-0 w-full z-50 transition-all duration-500 ${scrolled ? 'bg-black/95 backdrop-blur-md py-3' : 'bg-transparent py-6'}`}>
+        <div className="max-w-7xl mx-auto px-6">
           <div className="flex justify-between items-center">
-            <h1 className="text-2xl font-bold text-[#d4af37] tracking-wider">MSAXTER</h1>
-            <div className="hidden md:flex space-x-8">
-              <a href="#home" className="hover:text-[#d4af37] transition">Acasă</a>
-              <a href="#despre" className="hover:text-[#d4af37] transition">Despre</a>
-              <a href="#evenimente" className="hover:text-[#d4af37] transition">Evenimente</a>
-              <a href="#testimoniale" className="hover:text-[#d4af37] transition">Testimoniale</a>
-              <a href="#galerie" className="hover:text-[#d4af37] transition">Galerie</a>
-              <a href="#contact" className="hover:text-[#d4af37] transition">Contact</a>
+            <h1 className="text-3xl font-black text-[#d4af37] tracking-widest">MSAXTER</h1>
+            <div className="hidden md:flex space-x-10">
+              <a href="#home" className="text-white hover:text-[#d4af37] transition text-sm font-semibold tracking-wider uppercase">Acasă</a>
+              <a href="#despre" className="text-white hover:text-[#d4af37] transition text-sm font-semibold tracking-wider uppercase">Despre</a>
+              <a href="#evenimente" className="text-white hover:text-[#d4af37] transition text-sm font-semibold tracking-wider uppercase">Evenimente</a>
+              <a href="#galerie" className="text-white hover:text-[#d4af37] transition text-sm font-semibold tracking-wider uppercase">Galerie</a>
+              <a href="#contact" className="text-white hover:text-[#d4af37] transition text-sm font-semibold tracking-wider uppercase">Contact</a>
             </div>
           </div>
         </div>
       </nav>
 
-      {/* Hero Section */}
-      <section id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-[#d4af37]/10 to-transparent"></div>
-        <div className="relative z-10 text-center px-6">
-          <h2 className="text-6xl md:text-8xl font-bold mb-6">
-            <span className="text-[#d4af37]">Msaxter</span>
-          </h2>
-          <p className="text-2xl md:text-3xl mb-4 text-[#f5f5f5]/90">
-            Cel mai bun saxofonist din România
+      {/* Hero Section - Full Screen Dramatic */}
+      <section id="home" className="relative h-screen flex items-center justify-center overflow-hidden">
+        {/* Background Image with Overlay */}
+        <div className="absolute inset-0">
+          {gallery.filter(g => g.featured)[0] ? (
+            <img 
+              src={gallery.filter(g => g.featured)[0].url} 
+              alt="Msaxter Hero"
+              className="w-full h-full object-cover"
+            />
+          ) : (
+            <div className="w-full h-full bg-gradient-to-br from-[#1a1a1a] to-black"></div>
+          )}
+          <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black"></div>
+        </div>
+
+        {/* Content */}
+        <div className="relative z-10 text-center px-6 max-w-5xl">
+          <p className="text-[#d4af37] text-lg md:text-xl font-semibold tracking-[0.3em] uppercase mb-4 animate-pulse">
+            Saxofonist Profesionist
           </p>
-          <p className="text-xl md:text-2xl mb-8 text-[#f5f5f5]/70">
-            Cosmin din Iași - Artist desăvârșit
+          <h1 className="text-7xl md:text-9xl font-black mb-6 leading-tight">
+            <span className="gold-gradient">MSAXTER</span>
+          </h1>
+          <p className="text-2xl md:text-4xl text-white/80 mb-8 font-light">
+            Cel mai bun saxofonist din <span className="text-[#d4af37] font-semibold">România</span>
           </p>
-          <div className="flex flex-col md:flex-row gap-4 justify-center">
-            <a href="#contact" className="px-8 py-4 bg-gradient-to-r from-[#d4af37] to-[#f4cf57] text-[#0a0a0a] font-bold rounded-full hover:shadow-lg hover:shadow-[#d4af37]/30 transition transform hover:scale-105">
+          <p className="text-xl text-white/60 mb-12 max-w-2xl mx-auto">
+            Cosmin din Iași - Artist desăvârșit care transformă fiecare eveniment într-o experiență de neuitat
+          </p>
+          <div className="flex flex-col md:flex-row gap-6 justify-center">
+            <a href="#contact" className="btn-gold px-10 py-5 rounded-none text-lg min-w-[200px]">
               Rezervă Acum
             </a>
-            <a href="#galerie" className="px-8 py-4 border-2 border-[#d4af37] text-[#d4af37] font-bold rounded-full hover:bg-[#d4af37]/10 transition">
-              Vezi Galerie
+            <a href="#galerie" className="btn-outline px-10 py-5 rounded-none text-lg min-w-[200px]">
+              Vezi Show-ul
             </a>
+          </div>
+        </div>
+
+        {/* Scroll Indicator */}
+        <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
+          <div className="w-8 h-12 border-2 border-[#d4af37]/50 rounded-full flex justify-center pt-2">
+            <div className="w-1 h-3 bg-[#d4af37] rounded-full animate-ping"></div>
           </div>
         </div>
       </section>
 
-      {/* Despre Section */}
-      <section id="despre" className="py-24 px-6 bg-gradient-to-b from-[#0a0a0a] to-[#1a1a1a]">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-5xl font-bold mb-12 text-center text-[#d4af37]">Despre Mine</h2>
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div className="space-y-6 text-lg leading-relaxed">
-              <p>
-                <strong className="text-[#d4af37]">Cosmin, cunoscut ca "Msaxter"</strong>, este saxofonistul care a redefinit arta spectacolului în România. Cu o prezență scenică magnetică și un talent extraordinar, transformă fiecare eveniment într-o experiență de neuitat.
-              </p>
-              <p>
-                Din inima Iașului, am pornit o călătorie muzicală care m-a purtat pe cele mai prestigioase scene din țară. Fie că este vorba de o nuntă intimă, un eveniment corporate elegant sau o petrecere în club, aduc aceeași pasiune și profesionalism.
-              </p>
-              <p>
-                Ceea ce mă definește nu este doar tehnica impecabilă la saxofon, ci capacitatea de a <strong className="text-[#d4af37]">conecta publicul cu muzica</strong>. Când încep să cânt, oamenii nu mai stau la mese – se ridică, dansează și trăiesc fiecare notă.
-              </p>
-              <p>
-                Cu un repertoriu vast care cuprinde jazz clasic, piese contemporane, muzică populară românească și hituri internaționale, creez atmosfera perfectă pentru orice moment special.
-              </p>
-            </div>
+      {/* Despre Section - Dark Elegant */}
+      <section id="despre" className="py-32 px-6 bg-black relative">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            {/* Image Side */}
             <div className="relative">
-              <div className="aspect-square bg-gradient-to-br from-[#d4af37]/20 to-transparent rounded-full flex items-center justify-center overflow-hidden">
-                {gallery.filter(g => g.category === 'portrait' && g.featured)[0] ? (
+              <div className="relative z-10">
+                {gallery.filter(g => g.category === 'portrait')[0] ? (
                   <img 
-                    src={gallery.filter(g => g.category === 'portrait' && g.featured)[0].url} 
-                    alt="Msaxter Portrait"
-                    className="w-3/4 h-3/4 object-cover rounded-full border-4 border-[#d4af37]"
+                    src={gallery.filter(g => g.category === 'portrait')[0].url} 
+                    alt="Cosmin Msaxter"
+                    className="w-full aspect-[3/4] object-cover grayscale hover:grayscale-0 transition duration-700"
                   />
                 ) : (
-                  <div className="w-3/4 h-3/4 bg-[#0a0a0a] rounded-full flex items-center justify-center border-2 border-[#d4af37]">
-                    <span className="text-6xl">🎷</span>
+                  <div className="w-full aspect-[3/4] bg-gradient-to-br from-[#1a1a1a] to-black flex items-center justify-center">
+                    <span className="text-9xl">🎷</span>
                   </div>
                 )}
               </div>
-              <p className="text-center mt-6 text-[#d4af37] italic">
-                "Muzica nu e doar sunet, e emoție pură"
-              </p>
+              {/* Decorative elements */}
+              <div className="absolute -top-4 -left-4 w-full h-full border-2 border-[#d4af37]/30 z-0"></div>
+              <div className="absolute -bottom-4 -right-4 w-32 h-32 bg-[#d4af37]/10 blur-3xl"></div>
+            </div>
+
+            {/* Text Side */}
+            <div className="space-y-8">
+              <div>
+                <p className="text-[#d4af37] text-sm font-semibold tracking-[0.2em] uppercase mb-4">Despre Artist</p>
+                <h2 className="text-5xl md:text-6xl font-black leading-tight">
+                  COSMIN <span className="gold-gradient">"MSAXTER"</span>
+                </h2>
+              </div>
+              
+              <div className="space-y-6 text-lg text-white/70 leading-relaxed">
+                <p>
+                  <strong className="text-white font-semibold">Saxofonistul care a redefinit arta spectacolului în România.</strong> Cu o prezență scenică magnetică și un talent extraordinar, transformă fiecare eveniment într-o experiență de neuitat.
+                </p>
+                <p>
+                  Din inima Iașului, am pornit o călătorie muzicală care m-a purtat pe cele mai prestigioase scene din țară. Fie că este vorba de o nuntă intimă, un eveniment corporate elegant sau o petrecere în club, aduc aceeași pasiune și profesionalism.
+                </p>
+                <p>
+                  Ceea ce mă definește nu este doar tehnica impecabilă la saxofon, ci <strong className="text-[#d4af37]">capacitatea de a conecta publicul cu muzica</strong>. Când încep să cânt, oamenii nu mai stau la mese – se ridică, dansează și trăiesc fiecare notă.
+                </p>
+              </div>
+
+              {/* Stats */}
+              <div className="grid grid-cols-3 gap-6 pt-8 border-t border-white/10">
+                <div>
+                  <p className="text-4xl font-black text-[#d4af37]">500+</p>
+                  <p className="text-sm text-white/50 uppercase tracking-wider mt-1">Evenimente</p>
+                </div>
+                <div>
+                  <p className="text-4xl font-black text-[#d4af37]">15+</p>
+                  <p className="text-sm text-white/50 uppercase tracking-wider mt-1">Ani Experiență</p>
+                </div>
+                <div>
+                  <p className="text-4xl font-black text-[#d4af37]">100%</p>
+                  <p className="text-sm text-white/50 uppercase tracking-wider mt-1">Satisfacție</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Evenimente Section */}
-      <section id="evenimente" className="py-24 px-6">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-5xl font-bold mb-12 text-center text-[#d4af37]">Evenimente Viitoare</h2>
+      {/* Evenimente Section - Grid Layout */}
+      <section id="evenimente" className="py-32 px-6 bg-[#0a0a0a] relative overflow-hidden">
+        {/* Background decorative element */}
+        <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-[#d4af37]/5 to-transparent"></div>
+        
+        <div className="max-w-7xl mx-auto relative z-10">
+          <div className="text-center mb-20">
+            <p className="text-[#d4af37] text-sm font-semibold tracking-[0.2em] uppercase mb-4">Calendar</p>
+            <h2 className="text-5xl md:text-7xl font-black">
+              EVENIMENTE <span className="gold-gradient">VIITOARE</span>
+            </h2>
+          </div>
+
           {loading ? (
-            <div className="text-center text-[#d4af37]">Se încarcă...</div>
+            <div className="text-center text-[#d4af37] text-xl">Se încarcă...</div>
           ) : (
             <div className="grid md:grid-cols-2 gap-8">
-              {events.map((event) => (
-                <div key={event.id} className="bg-[#1a1a1a] rounded-2xl overflow-hidden border border-[#d4af37]/20 hover:border-[#d4af37] transition group">
-                  {event.image ? (
-                    <div className="h-48 overflow-hidden">
-                      <img src={event.image} alt={event.title} className="w-full h-full object-cover group-hover:scale-110 transition" />
-                    </div>
-                  ) : (
-                    <div className="h-48 bg-gradient-to-br from-[#d4af37]/20 to-[#0a0a0a] flex items-center justify-center">
-                      <span className="text-6xl">
-                        {event.type === 'nunta' ? '💒' : event.type === 'corporate' ? '🏢' : event.type === 'club' ? '🎉' : '🎪'}
-                      </span>
-                    </div>
-                  )}
-                  <div className="p-6">
-                    <div className="flex items-center gap-3 mb-3">
-                      <span className="px-3 py-1 bg-[#d4af37]/20 text-[#d4af37] text-sm rounded-full capitalize">
+              {events.map((event, index) => (
+                <div 
+                  key={event.id} 
+                  className="group relative bg-black border border-white/10 hover:border-[#d4af37] transition-all duration-500 overflow-hidden"
+                >
+                  {/* Image */}
+                  <div className="h-64 overflow-hidden">
+                    {event.image ? (
+                      <img 
+                        src={event.image} 
+                        alt={event.title} 
+                        className="w-full h-full object-cover group-hover:scale-110 transition duration-700"
+                      />
+                    ) : (
+                      <div className="h-full bg-gradient-to-br from-[#1a1a1a] to-black flex items-center justify-center">
+                        <span className="text-7xl opacity-50">
+                          {event.type === 'nunta' ? '💒' : event.type === 'corporate' ? '🏢' : event.type === 'club' ? '🎉' : '🎪'}
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                  
+                  {/* Content */}
+                  <div className="p-8">
+                    <div className="flex items-center gap-4 mb-4">
+                      <span className="px-4 py-2 bg-[#d4af37] text-black text-xs font-bold uppercase tracking-wider">
                         {event.type}
                       </span>
-                      <span className="text-[#f5f5f5]/60 text-sm">
+                      <span className="text-white/50 text-sm">
                         {new Date(event.date).toLocaleDateString('ro-RO', { day: 'numeric', month: 'long', year: 'numeric' })}
                       </span>
                     </div>
-                    <h3 className="text-2xl font-bold mb-2 text-[#d4af37]">{event.title}</h3>
-                    <p className="text-[#f5f5f5]/70 mb-3">📍 {event.location}</p>
+                    <h3 className="text-2xl font-bold mb-3 text-white group-hover:text-[#d4af37] transition">
+                      {event.title}
+                    </h3>
+                    <p className="text-white/60 mb-3">📍 {event.location}</p>
                     {event.description && (
-                      <p className="text-[#f5f5f5]/60">{event.description}</p>
+                      <p className="text-white/50 text-sm leading-relaxed">{event.description}</p>
                     )}
                   </div>
+
+                  {/* Hover effect overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#d4af37]/20 to-transparent opacity-0 group-hover:opacity-100 transition duration-500 pointer-events-none"></div>
                 </div>
               ))}
             </div>
@@ -171,31 +235,94 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Testimoniale Section */}
-      <section id="testimoniale" className="py-24 px-6 bg-gradient-to-b from-[#1a1a1a] to-[#0a0a0a]">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-5xl font-bold mb-12 text-center text-[#d4af37]">Ce Spun Clienții</h2>
+      {/* Galerie Section - Masonry Style */}
+      <section id="galerie" className="py-32 px-6 bg-black relative">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-20">
+            <p className="text-[#d4af37] text-sm font-semibold tracking-[0.2em] uppercase mb-4">Portofoliu</p>
+            <h2 className="text-5xl md:text-7xl font-black">
+              GALERIE <span className="gold-gradient">FOTO</span>
+            </h2>
+          </div>
+
           {loading ? (
-            <div className="text-center text-[#d4af37]">Se încarcă...</div>
+            <div className="text-center text-[#d4af37] text-xl">Se încarcă...</div>
+          ) : (
+            <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-4">
+              {gallery.map((image) => (
+                <div 
+                  key={image.id} 
+                  className={`group relative overflow-hidden cursor-pointer ${
+                    image.featured ? 'md:col-span-2 md:row-span-2' : ''
+                  }`}
+                >
+                  <div className={`aspect-square ${image.featured ? 'md:aspect-auto md:h-full' : ''}`}>
+                    <img 
+                      src={image.url} 
+                      alt={image.title} 
+                      className="w-full h-full object-cover group-hover:scale-110 transition duration-700 grayscale group-hover:grayscale-0"
+                    />
+                  </div>
+                  
+                  {/* Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition duration-500">
+                    <div className="absolute bottom-0 left-0 right-0 p-6">
+                      <p className="text-[#d4af37] font-bold text-lg">{image.title}</p>
+                      <p className="text-white/60 text-sm uppercase tracking-wider">{image.category}</p>
+                    </div>
+                  </div>
+
+                  {image.featured && (
+                    <div className="absolute top-4 right-4 px-3 py-1 bg-[#d4af37] text-black text-xs font-bold uppercase tracking-wider">
+                      Featured
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* Testimoniale Section - Dark Cards */}
+      <section id="testimoniale" className="py-32 px-6 bg-[#0a0a0a] relative">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-20">
+            <p className="text-[#d4af37] text-sm font-semibold tracking-[0.2em] uppercase mb-4">Recenzii</p>
+            <h2 className="text-5xl md:text-7xl font-black">
+              CE SPUN <span className="gold-gradient">CLIENȚII</span>
+            </h2>
+          </div>
+
+          {loading ? (
+            <div className="text-center text-[#d4af37] text-xl">Se încarcă...</div>
           ) : (
             <div className="grid md:grid-cols-3 gap-8">
               {testimonials.map((testimonial) => (
-                <div key={testimonial.id} className="bg-[#1a1a1a]/50 p-8 rounded-2xl border border-[#d4af37]/20 hover:border-[#d4af37] transition">
-                  <div className="flex mb-4">
+                <div 
+                  key={testimonial.id} 
+                  className="bg-black p-8 border border-white/10 hover:border-[#d4af37] transition duration-500 group"
+                >
+                  {/* Stars */}
+                  <div className="flex mb-6">
                     {[...Array(5)].map((_, i) => (
-                      <span key={i} className={`text-xl ${i < testimonial.rating ? 'text-[#d4af37]' : 'text-[#f5f5f5]/20'}`}>
+                      <span key={i} className={`text-2xl ${i < testimonial.rating ? 'text-[#d4af37]' : 'text-white/10'}`}>
                         ★
                       </span>
                     ))}
                   </div>
-                  <p className="text-[#f5f5f5]/80 mb-6 italic leading-relaxed">"{testimonial.message}"</p>
-                  <div className="flex items-center justify-between">
+                  
+                  {/* Quote */}
+                  <p className="text-white/80 mb-8 text-lg leading-relaxed italic">"{testimonial.message}"</p>
+                  
+                  {/* Author */}
+                  <div className="flex items-center justify-between pt-6 border-t border-white/10">
                     <div>
-                      <p className="font-bold text-[#d4af37]">{testimonial.name}</p>
-                      <p className="text-sm text-[#f5f5f5]/50 capitalize">{testimonial.event_type}</p>
+                      <p className="font-bold text-white group-hover:text-[#d4af37] transition">{testimonial.name}</p>
+                      <p className="text-sm text-white/40 uppercase tracking-wider">{testimonial.event_type}</p>
                     </div>
-                    <span className="text-xs text-[#f5f5f5]/40">
-                      {new Date(testimonial.date).toLocaleDateString('ro-RO')}
+                    <span className="text-xs text-white/30">
+                      {new Date(testimonial.date).toLocaleDateString('ro-RO', { day: 'numeric', month: 'short' })}
                     </span>
                   </div>
                 </div>
@@ -205,91 +332,74 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Galerie Section */}
-      <section id="galerie" className="py-24 px-6">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-5xl font-bold mb-12 text-center text-[#d4af37]">Galerie Foto</h2>
-          {loading ? (
-            <div className="text-center text-[#d4af37]">Se încarcă...</div>
-          ) : (
-            <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-6">
-              {gallery.map((image) => (
-                <div 
-                  key={image.id} 
-                  className={`aspect-square rounded-xl overflow-hidden border-2 transition group cursor-pointer ${
-                    image.featured ? 'border-[#d4af37]' : 'border-[#d4af37]/20 hover:border-[#d4af37]'
-                  }`}
-                >
-                  <img 
-                    src={image.url} 
-                    alt={image.title} 
-                    className="w-full h-full object-cover group-hover:scale-110 transition duration-500"
-                  />
-                  {image.featured && (
-                    <div className="absolute top-2 right-2 px-2 py-1 bg-[#d4af37] text-[#0a0a0a] text-xs font-bold rounded">
-                      FEATURED
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-      </section>
+      {/* Contact Section - Dramatic */}
+      <section id="contact" className="py-32 px-6 bg-black relative overflow-hidden">
+        {/* Background effect */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0a0a0a] to-black"></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#d4af37]/5 rounded-full blur-3xl"></div>
+        
+        <div className="max-w-4xl mx-auto relative z-10">
+          <div className="text-center mb-16">
+            <p className="text-[#d4af37] text-sm font-semibold tracking-[0.2em] uppercase mb-4">Contact</p>
+            <h2 className="text-5xl md:text-7xl font-black mb-8">
+              REZERVĂ <span className="gold-gradient">DATA</span>
+            </h2>
+            <p className="text-xl text-white/60 max-w-2xl mx-auto">
+              Pentru disponibilitate și oferte personalizate pentru evenimentul tău
+            </p>
+          </div>
 
-      {/* Contact Section */}
-      <section id="contact" className="py-24 px-6 bg-gradient-to-b from-[#0a0a0a] to-[#1a1a1a]">
-        <div className="max-w-4xl mx-auto">
-          <h2 className="text-5xl font-bold mb-12 text-center text-[#d4af37]">Contact</h2>
-          <div className="bg-[#1a1a1a] p-8 md:p-12 rounded-2xl border border-[#d4af37]/20 shadow-xl shadow-[#d4af37]/5">
-            <div className="text-center mb-8">
-              <p className="text-2xl mb-4 text-[#d4af37]">Rezervă-ți data acum!</p>
-              <p className="text-[#f5f5f5]/70">
-                Pentru disponibilitate și oferte personalizate
-              </p>
+          {/* Contact Cards */}
+          <div className="grid md:grid-cols-3 gap-6 mb-12">
+            <div className="bg-[#0a0a0a] p-8 text-center border border-white/10 hover:border-[#d4af37] transition group">
+              <span className="text-5xl mb-4 block">📍</span>
+              <p className="text-white font-semibold mb-2">Locație</p>
+              <p className="text-white/50">Iași, România</p>
             </div>
-            <div className="space-y-6">
-              <div className="flex items-center justify-center gap-4">
-                <span className="text-3xl">📍</span>
-                <span className="text-xl">Iași, România</span>
-              </div>
-              <div className="flex items-center justify-center gap-4">
-                <span className="text-3xl">📧</span>
-                <a href="mailto:contact@msaxter.ro" className="text-xl text-[#d4af37] hover:text-[#f4cf57] transition">
-                  contact@msaxter.ro
-                </a>
-              </div>
-              <div className="flex items-center justify-center gap-4">
-                <span className="text-3xl">📱</span>
-                <a href="tel:+40700000000" className="text-xl text-[#d4af37] hover:text-[#f4cf57] transition">
-                  +40 7XX XXX XXX
-                </a>
-              </div>
-            </div>
-            <div className="mt-12 flex justify-center gap-6">
-              <a href="#" className="text-4xl text-[#d4af37] hover:text-[#f4cf57] transition transform hover:scale-125">
-                📘
-              </a>
-              <a href="#" className="text-4xl text-[#d4af37] hover:text-[#f4cf57] transition transform hover:scale-125">
-                📸
-              </a>
-              <a href="#" className="text-4xl text-[#d4af37] hover:text-[#f4cf57] transition transform hover:scale-125">
-                🎬
-              </a>
-              <a href="#" className="text-4xl text-[#d4af37] hover:text-[#f4cf57] transition transform hover:scale-125">
-                🎵
+            <div className="bg-[#0a0a0a] p-8 text-center border border-white/10 hover:border-[#d4af37] transition group">
+              <span className="text-5xl mb-4 block">📧</span>
+              <p className="text-white font-semibold mb-2">Email</p>
+              <a href="mailto:contact@msaxter.ro" className="text-[#d4af37] hover:text-[#f4cf57] transition">
+                contact@msaxter.ro
               </a>
             </div>
+            <div className="bg-[#0a0a0a] p-8 text-center border border-white/10 hover:border-[#d4af37] transition group">
+              <span className="text-5xl mb-4 block">📱</span>
+              <p className="text-white font-semibold mb-2">Telefon</p>
+              <a href="tel:+40700000000" className="text-[#d4af37] hover:text-[#f4cf57] transition">
+                +40 7XX XXX XXX
+              </a>
+            </div>
+          </div>
+
+          {/* Social Links */}
+          <div className="flex justify-center gap-8">
+            <a href="#" className="w-16 h-16 bg-[#0a0a0a] border border-white/10 hover:border-[#d4af37] flex items-center justify-center text-3xl transition transform hover:scale-110">
+              📘
+            </a>
+            <a href="#" className="w-16 h-16 bg-[#0a0a0a] border border-white/10 hover:border-[#d4af37] flex items-center justify-center text-3xl transition transform hover:scale-110">
+              📸
+            </a>
+            <a href="#" className="w-16 h-16 bg-[#0a0a0a] border border-white/10 hover:border-[#d4af37] flex items-center justify-center text-3xl transition transform hover:scale-110">
+              🎬
+            </a>
+            <a href="#" className="w-16 h-16 bg-[#0a0a0a] border border-white/10 hover:border-[#d4af37] flex items-center justify-center text-3xl transition transform hover:scale-110">
+              🎵
+            </a>
           </div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="py-8 px-6 border-t border-[#d4af37]/20">
-        <div className="max-w-6xl mx-auto text-center text-[#f5f5f5]/50">
-          <p>© 2026 Msaxter. Toate drepturile rezervate.</p>
-          <p className="mt-2">Cosmin "Msaxter" - Saxofonist Profesionist din Iași</p>
-          <p className="mt-1 text-xs">Powered by Next.js & Supabase</p>
+      <footer className="py-12 px-6 border-t border-white/10">
+        <div className="max-w-7xl mx-auto text-center">
+          <h3 className="text-3xl font-black text-[#d4af37] tracking-widest mb-4">MSAXTER</h3>
+          <p className="text-white/40 text-sm">
+            © 2026 Cosmin "Msaxter" - Saxofonist Profesionist din Iași. Toate drepturile rezervate.
+          </p>
+          <p className="text-white/20 text-xs mt-2">
+            Powered by Next.js & Supabase
+          </p>
         </div>
       </footer>
     </main>
