@@ -29,7 +29,6 @@ export default function Home() {
 
     fetchData();
 
-    // Scroll effect for navbar
     const handleScroll = () => {
       setScrolled(window.scrollY > 100);
     };
@@ -37,111 +36,78 @@ export default function Home() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const featuredImage = gallery.filter(g => g.featured)[0]?.url || '/images/DYR84074.JPG';
+  const portraitImage = gallery.filter(g => g.category === 'portrait')[0]?.url;
+
   return (
-    <main className="min-h-screen bg-black text-white">
+    <main className="bg-[#0a0a0a] text-white min-h-screen">
       {/* Navigation */}
-      <nav className={`fixed top-0 w-full z-50 transition-all duration-500 ${scrolled ? 'bg-black/95 backdrop-blur-md py-3' : 'bg-transparent py-6'}`}>
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="flex justify-between items-center">
-            <h1 className="text-3xl font-black text-[#d4af37] tracking-widest">MSAXTER</h1>
-            <div className="hidden md:flex space-x-10">
-              <a href="#home" className="text-white hover:text-[#d4af37] transition text-sm font-semibold tracking-wider uppercase">Acasă</a>
-              <a href="#despre" className="text-white hover:text-[#d4af37] transition text-sm font-semibold tracking-wider uppercase">Despre</a>
-              <a href="#evenimente" className="text-white hover:text-[#d4af37] transition text-sm font-semibold tracking-wider uppercase">Evenimente</a>
-              <a href="#galerie" className="text-white hover:text-[#d4af37] transition text-sm font-semibold tracking-wider uppercase">Galerie</a>
-              <a href="#contact" className="text-white hover:text-[#d4af37] transition text-sm font-semibold tracking-wider uppercase">Contact</a>
-            </div>
-          </div>
+      <nav className={`navbar ${scrolled ? 'scrolled' : ''}`}>
+        <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
+          <a href="#home" className="navbar-brand">MSAXTER</a>
+          <ul className="navbar-menu">
+            <li><a href="#home" className="navbar-link">Acasă</a></li>
+            <li><a href="#despre" className="navbar-link">Despre</a></li>
+            <li><a href="#evenimente" className="navbar-link">Evenimente</a></li>
+            <li><a href="#galerie" className="navbar-link">Galerie</a></li>
+            <li><a href="#contact" className="navbar-link">Contact</a></li>
+          </ul>
         </div>
       </nav>
 
-      {/* Hero Section - Full Screen Dramatic */}
-      <section id="home" className="relative h-screen flex items-center justify-center overflow-hidden">
-        {/* Background Image with Overlay */}
-        <div className="absolute inset-0">
-          {gallery.filter(g => g.featured)[0] ? (
-            <img 
-              src={gallery.filter(g => g.featured)[0].url} 
-              alt="Msaxter Hero"
-              className="w-full h-full object-cover"
-            />
-          ) : (
-            <div className="w-full h-full bg-gradient-to-br from-[#1a1a1a] to-black"></div>
-          )}
-          <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black"></div>
-        </div>
-
-        {/* Content */}
+      {/* Hero Section */}
+      <section id="home" className="hero-section">
+        <div className="hero-bg" style={{ backgroundImage: `url(${featuredImage})` }}></div>
+        <div className="hero-overlay"></div>
+        
         <div className="relative z-10 text-center px-6 max-w-5xl">
-          <p className="text-[#d4af37] text-lg md:text-xl font-semibold tracking-[0.3em] uppercase mb-4 animate-pulse">
-            Saxofonist Profesionist
-          </p>
-          <h1 className="text-7xl md:text-9xl font-black mb-6 leading-tight">
+          <span className="section-subtitle">Saxofonist Profesionist</span>
+          <h1 className="text-7xl md:text-9xl font-bold mb-6">
             <span className="gold-gradient">MSAXTER</span>
           </h1>
-          <p className="text-2xl md:text-4xl text-white/80 mb-8 font-light">
+          <p className="text-2xl md:text-4xl text-white/80 mb-4 font-light">
             Cel mai bun saxofonist din <span className="text-[#d4af37] font-semibold">România</span>
           </p>
           <p className="text-xl text-white/60 mb-12 max-w-2xl mx-auto">
             Cosmin din Iași - Artist desăvârșit care transformă fiecare eveniment într-o experiență de neuitat
           </p>
           <div className="flex flex-col md:flex-row gap-6 justify-center">
-            <a href="#contact" className="btn-gold px-10 py-5 rounded-none text-lg min-w-[200px]">
-              Rezervă Acum
-            </a>
-            <a href="#galerie" className="btn-outline px-10 py-5 rounded-none text-lg min-w-[200px]">
-              Vezi Show-ul
-            </a>
-          </div>
-        </div>
-
-        {/* Scroll Indicator */}
-        <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
-          <div className="w-8 h-12 border-2 border-[#d4af37]/50 rounded-full flex justify-center pt-2">
-            <div className="w-1 h-3 bg-[#d4af37] rounded-full animate-ping"></div>
+            <a href="#contact" className="btn-rockon btn-primary">Rezervă Acum</a>
+            <a href="#galerie" className="btn-rockon btn-outline">Vezi Show-ul</a>
           </div>
         </div>
       </section>
 
-      {/* Despre Section - Dark Elegant */}
-      <section id="despre" className="py-32 px-6 bg-black relative">
+      {/* Despre Section */}
+      <section id="despre" className="py-32 px-6 section-dark">
         <div className="max-w-7xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
-            {/* Image Side */}
-            <div className="relative">
-              <div className="relative z-10">
-                {gallery.filter(g => g.category === 'portrait')[0] ? (
-                  <img 
-                    src={gallery.filter(g => g.category === 'portrait')[0].url} 
-                    alt="Cosmin Msaxter"
-                    className="w-full aspect-[3/4] object-cover grayscale hover:grayscale-0 transition duration-700"
-                  />
+            {/* Image */}
+            <div className="card-rockon">
+              <div className="card-image">
+                {portraitImage ? (
+                  <img src={portraitImage} alt="Cosmin Msaxter" className="aspect-[3/4]" />
                 ) : (
-                  <div className="w-full aspect-[3/4] bg-gradient-to-br from-[#1a1a1a] to-black flex items-center justify-center">
+                  <div className="aspect-[3/4] bg-gradient-to-br from-[#1a1a1a] to-black flex items-center justify-center">
                     <span className="text-9xl">🎷</span>
                   </div>
                 )}
               </div>
-              {/* Decorative elements */}
-              <div className="absolute -top-4 -left-4 w-full h-full border-2 border-[#d4af37]/30 z-0"></div>
-              <div className="absolute -bottom-4 -right-4 w-32 h-32 bg-[#d4af37]/10 blur-3xl"></div>
             </div>
 
-            {/* Text Side */}
-            <div className="space-y-8">
-              <div>
-                <p className="text-[#d4af37] text-sm font-semibold tracking-[0.2em] uppercase mb-4">Despre Artist</p>
-                <h2 className="text-5xl md:text-6xl font-black leading-tight">
-                  COSMIN <span className="gold-gradient">"MSAXTER"</span>
-                </h2>
-              </div>
+            {/* Content */}
+            <div>
+              <span className="section-subtitle">Despre Artist</span>
+              <h2 className="text-5xl md:text-6xl font-bold mb-8 section-title">
+                COSMIN <span className="gold-gradient">"MSAXTER"</span>
+              </h2>
               
-              <div className="space-y-6 text-lg text-white/70 leading-relaxed">
+              <div className="space-y-6 text-lg text-white/70 leading-relaxed mb-10">
                 <p>
                   <strong className="text-white font-semibold">Saxofonistul care a redefinit arta spectacolului în România.</strong> Cu o prezență scenică magnetică și un talent extraordinar, transformă fiecare eveniment într-o experiență de neuitat.
                 </p>
                 <p>
-                  Din inima Iașului, am pornit o călătorie muzicală care m-a purtat pe cele mai prestigioase scene din țară. Fie că este vorba de o nuntă intimă, un eveniment corporate elegant sau o petrecere în club, aduc aceeași pasiune și profesionalism.
+                  Din inima Iașului, am pornit o călătorie muzicală care m-a purtat pe cele mai prestigioase scene din țară.
                 </p>
                 <p>
                   Ceea ce mă definește nu este doar tehnica impecabilă la saxofon, ci <strong className="text-[#d4af37]">capacitatea de a conecta publicul cu muzica</strong>. Când încep să cânt, oamenii nu mai stau la mese – se ridică, dansează și trăiesc fiecare notă.
@@ -150,17 +116,17 @@ export default function Home() {
 
               {/* Stats */}
               <div className="grid grid-cols-3 gap-6 pt-8 border-t border-white/10">
-                <div>
-                  <p className="text-4xl font-black text-[#d4af37]">500+</p>
-                  <p className="text-sm text-white/50 uppercase tracking-wider mt-1">Evenimente</p>
+                <div className="stat-item">
+                  <div className="stat-number">500+</div>
+                  <div className="stat-label">Evenimente</div>
                 </div>
-                <div>
-                  <p className="text-4xl font-black text-[#d4af37]">15+</p>
-                  <p className="text-sm text-white/50 uppercase tracking-wider mt-1">Ani Experiență</p>
+                <div className="stat-item">
+                  <div className="stat-number">15+</div>
+                  <div className="stat-label">Ani Experiență</div>
                 </div>
-                <div>
-                  <p className="text-4xl font-black text-[#d4af37]">100%</p>
-                  <p className="text-sm text-white/50 uppercase tracking-wider mt-1">Satisfacție</p>
+                <div className="stat-item">
+                  <div className="stat-number">100%</div>
+                  <div className="stat-label">Satisfacție</div>
                 </div>
               </div>
             </div>
@@ -168,15 +134,12 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Evenimente Section - Grid Layout */}
-      <section id="evenimente" className="py-32 px-6 bg-[#0a0a0a] relative overflow-hidden">
-        {/* Background decorative element */}
-        <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-[#d4af37]/5 to-transparent"></div>
-        
-        <div className="max-w-7xl mx-auto relative z-10">
-          <div className="text-center mb-20">
-            <p className="text-[#d4af37] text-sm font-semibold tracking-[0.2em] uppercase mb-4">Calendar</p>
-            <h2 className="text-5xl md:text-7xl font-black">
+      {/* Evenimente Section */}
+      <section id="evenimente" className="py-32 px-6 section-gray">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <span className="section-subtitle">Calendar</span>
+            <h2 className="text-5xl md:text-6xl font-bold section-title">
               EVENIMENTE <span className="gold-gradient">VIITOARE</span>
             </h2>
           </div>
@@ -185,19 +148,11 @@ export default function Home() {
             <div className="text-center text-[#d4af37] text-xl">Se încarcă...</div>
           ) : (
             <div className="grid md:grid-cols-2 gap-8">
-              {events.map((event, index) => (
-                <div 
-                  key={event.id} 
-                  className="group relative bg-black border border-white/10 hover:border-[#d4af37] transition-all duration-500 overflow-hidden"
-                >
-                  {/* Image */}
-                  <div className="h-64 overflow-hidden">
+              {events.map((event) => (
+                <div key={event.id} className="card-rockon">
+                  <div className="card-image h-64">
                     {event.image ? (
-                      <img 
-                        src={event.image} 
-                        alt={event.title} 
-                        className="w-full h-full object-cover group-hover:scale-110 transition duration-700"
-                      />
+                      <img src={event.image} alt={event.title} />
                     ) : (
                       <div className="h-full bg-gradient-to-br from-[#1a1a1a] to-black flex items-center justify-center">
                         <span className="text-7xl opacity-50">
@@ -206,8 +161,6 @@ export default function Home() {
                       </div>
                     )}
                   </div>
-                  
-                  {/* Content */}
                   <div className="p-8">
                     <div className="flex items-center gap-4 mb-4">
                       <span className="px-4 py-2 bg-[#d4af37] text-black text-xs font-bold uppercase tracking-wider">
@@ -225,9 +178,6 @@ export default function Home() {
                       <p className="text-white/50 text-sm leading-relaxed">{event.description}</p>
                     )}
                   </div>
-
-                  {/* Hover effect overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#d4af37]/20 to-transparent opacity-0 group-hover:opacity-100 transition duration-500 pointer-events-none"></div>
                 </div>
               ))}
             </div>
@@ -235,12 +185,12 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Galerie Section - Masonry Style */}
-      <section id="galerie" className="py-32 px-6 bg-black relative">
+      {/* Galerie Section */}
+      <section id="galerie" className="py-32 px-6 section-dark">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-20">
-            <p className="text-[#d4af37] text-sm font-semibold tracking-[0.2em] uppercase mb-4">Portofoliu</p>
-            <h2 className="text-5xl md:text-7xl font-black">
+          <div className="text-center mb-16">
+            <span className="section-subtitle">Portofoliu</span>
+            <h2 className="text-5xl md:text-6xl font-bold section-title">
               GALERIE <span className="gold-gradient">FOTO</span>
             </h2>
           </div>
@@ -248,35 +198,17 @@ export default function Home() {
           {loading ? (
             <div className="text-center text-[#d4af37] text-xl">Se încarcă...</div>
           ) : (
-            <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-4">
+            <div className="gallery-grid">
               {gallery.map((image) => (
                 <div 
                   key={image.id} 
-                  className={`group relative overflow-hidden cursor-pointer ${
-                    image.featured ? 'md:col-span-2 md:row-span-2' : ''
-                  }`}
+                  className={`gallery-item ${image.featured ? 'featured' : ''}`}
                 >
-                  <div className={`aspect-square ${image.featured ? 'md:aspect-auto md:h-full' : ''}`}>
-                    <img 
-                      src={image.url} 
-                      alt={image.title} 
-                      className="w-full h-full object-cover group-hover:scale-110 transition duration-700 grayscale group-hover:grayscale-0"
-                    />
+                  <img src={image.url} alt={image.title} />
+                  <div className="gallery-overlay">
+                    <span className="gallery-title">{image.title}</span>
+                    <span className="gallery-category">{image.category}</span>
                   </div>
-                  
-                  {/* Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition duration-500">
-                    <div className="absolute bottom-0 left-0 right-0 p-6">
-                      <p className="text-[#d4af37] font-bold text-lg">{image.title}</p>
-                      <p className="text-white/60 text-sm uppercase tracking-wider">{image.category}</p>
-                    </div>
-                  </div>
-
-                  {image.featured && (
-                    <div className="absolute top-4 right-4 px-3 py-1 bg-[#d4af37] text-black text-xs font-bold uppercase tracking-wider">
-                      Featured
-                    </div>
-                  )}
                 </div>
               ))}
             </div>
@@ -284,12 +216,12 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Testimoniale Section - Dark Cards */}
-      <section id="testimoniale" className="py-32 px-6 bg-[#0a0a0a] relative">
+      {/* Testimoniale Section */}
+      <section id="testimoniale" className="py-32 px-6 section-gray">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-20">
-            <p className="text-[#d4af37] text-sm font-semibold tracking-[0.2em] uppercase mb-4">Recenzii</p>
-            <h2 className="text-5xl md:text-7xl font-black">
+          <div className="text-center mb-16">
+            <span className="section-subtitle">Recenzii</span>
+            <h2 className="text-5xl md:text-6xl font-bold section-title">
               CE SPUN <span className="gold-gradient">CLIENȚII</span>
             </h2>
           </div>
@@ -299,31 +231,16 @@ export default function Home() {
           ) : (
             <div className="grid md:grid-cols-3 gap-8">
               {testimonials.map((testimonial) => (
-                <div 
-                  key={testimonial.id} 
-                  className="bg-black p-8 border border-white/10 hover:border-[#d4af37] transition duration-500 group"
-                >
-                  {/* Stars */}
-                  <div className="flex mb-6">
+                <div key={testimonial.id} className="testimonial-card">
+                  <div className="testimonial-stars">
                     {[...Array(5)].map((_, i) => (
-                      <span key={i} className={`text-2xl ${i < testimonial.rating ? 'text-[#d4af37]' : 'text-white/10'}`}>
-                        ★
-                      </span>
+                      <span key={i}>{i < testimonial.rating ? '★' : '☆'}</span>
                     ))}
                   </div>
-                  
-                  {/* Quote */}
-                  <p className="text-white/80 mb-8 text-lg leading-relaxed italic">"{testimonial.message}"</p>
-                  
-                  {/* Author */}
-                  <div className="flex items-center justify-between pt-6 border-t border-white/10">
-                    <div>
-                      <p className="font-bold text-white group-hover:text-[#d4af37] transition">{testimonial.name}</p>
-                      <p className="text-sm text-white/40 uppercase tracking-wider">{testimonial.event_type}</p>
-                    </div>
-                    <span className="text-xs text-white/30">
-                      {new Date(testimonial.date).toLocaleDateString('ro-RO', { day: 'numeric', month: 'short' })}
-                    </span>
+                  <p className="testimonial-text">"{testimonial.message}"</p>
+                  <div>
+                    <div className="testimonial-author">{testimonial.name}</div>
+                    <div className="testimonial-event">{testimonial.event_type}</div>
                   </div>
                 </div>
               ))}
@@ -332,72 +249,58 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Contact Section - Dramatic */}
-      <section id="contact" className="py-32 px-6 bg-black relative overflow-hidden">
-        {/* Background effect */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0a0a0a] to-black"></div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#d4af37]/5 rounded-full blur-3xl"></div>
-        
-        <div className="max-w-4xl mx-auto relative z-10">
+      {/* Contact Section */}
+      <section id="contact" className="py-32 px-6 section-dark">
+        <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <p className="text-[#d4af37] text-sm font-semibold tracking-[0.2em] uppercase mb-4">Contact</p>
-            <h2 className="text-5xl md:text-7xl font-black mb-8">
+            <span className="section-subtitle">Contact</span>
+            <h2 className="text-5xl md:text-6xl font-bold section-title">
               REZERVĂ <span className="gold-gradient">DATA</span>
             </h2>
-            <p className="text-xl text-white/60 max-w-2xl mx-auto">
+            <p className="text-xl text-white/60 max-w-2xl mx-auto mt-6">
               Pentru disponibilitate și oferte personalizate pentru evenimentul tău
             </p>
           </div>
 
-          {/* Contact Cards */}
           <div className="grid md:grid-cols-3 gap-6 mb-12">
-            <div className="bg-[#0a0a0a] p-8 text-center border border-white/10 hover:border-[#d4af37] transition group">
-              <span className="text-5xl mb-4 block">📍</span>
-              <p className="text-white font-semibold mb-2">Locație</p>
-              <p className="text-white/50">Iași, România</p>
+            <div className="contact-box">
+              <div className="contact-icon">📍</div>
+              <h3 className="contact-title">Locație</h3>
+              <p className="contact-text">Iași, România</p>
             </div>
-            <div className="bg-[#0a0a0a] p-8 text-center border border-white/10 hover:border-[#d4af37] transition group">
-              <span className="text-5xl mb-4 block">📧</span>
-              <p className="text-white font-semibold mb-2">Email</p>
-              <a href="mailto:contact@msaxter.ro" className="text-[#d4af37] hover:text-[#f4cf57] transition">
-                contact@msaxter.ro
-              </a>
+            <div className="contact-box">
+              <div className="contact-icon">📧</div>
+              <h3 className="contact-title">Email</h3>
+              <p className="contact-text">
+                <a href="mailto:contact@msaxter.ro">contact@msaxter.ro</a>
+              </p>
             </div>
-            <div className="bg-[#0a0a0a] p-8 text-center border border-white/10 hover:border-[#d4af37] transition group">
-              <span className="text-5xl mb-4 block">📱</span>
-              <p className="text-white font-semibold mb-2">Telefon</p>
-              <a href="tel:+40700000000" className="text-[#d4af37] hover:text-[#f4cf57] transition">
-                +40 7XX XXX XXX
-              </a>
+            <div className="contact-box">
+              <div className="contact-icon">📱</div>
+              <h3 className="contact-title">Telefon</h3>
+              <p className="contact-text">
+                <a href="tel:+40700000000">+40 7XX XXX XXX</a>
+              </p>
             </div>
           </div>
 
-          {/* Social Links */}
-          <div className="flex justify-center gap-8">
-            <a href="#" className="w-16 h-16 bg-[#0a0a0a] border border-white/10 hover:border-[#d4af37] flex items-center justify-center text-3xl transition transform hover:scale-110">
-              📘
-            </a>
-            <a href="#" className="w-16 h-16 bg-[#0a0a0a] border border-white/10 hover:border-[#d4af37] flex items-center justify-center text-3xl transition transform hover:scale-110">
-              📸
-            </a>
-            <a href="#" className="w-16 h-16 bg-[#0a0a0a] border border-white/10 hover:border-[#d4af37] flex items-center justify-center text-3xl transition transform hover:scale-110">
-              🎬
-            </a>
-            <a href="#" className="w-16 h-16 bg-[#0a0a0a] border border-white/10 hover:border-[#d4af37] flex items-center justify-center text-3xl transition transform hover:scale-110">
-              🎵
-            </a>
+          <div className="flex justify-center gap-4">
+            <a href="#" className="social-btn">📘</a>
+            <a href="#" className="social-btn">📸</a>
+            <a href="#" className="social-btn">🎬</a>
+            <a href="#" className="social-btn">🎵</a>
           </div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="py-12 px-6 border-t border-white/10">
-        <div className="max-w-7xl mx-auto text-center">
-          <h3 className="text-3xl font-black text-[#d4af37] tracking-widest mb-4">MSAXTER</h3>
-          <p className="text-white/40 text-sm">
+      <footer className="footer">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="footer-brand">MSAXTER</div>
+          <p className="footer-text">
             © 2026 Cosmin "Msaxter" - Saxofonist Profesionist din Iași. Toate drepturile rezervate.
           </p>
-          <p className="text-white/20 text-xs mt-2">
+          <p className="footer-text mt-2 text-sm">
             Powered by Next.js & Supabase
           </p>
         </div>
