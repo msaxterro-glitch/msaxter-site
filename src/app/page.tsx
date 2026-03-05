@@ -43,7 +43,7 @@ export default function Home() {
     <main className="bg-[#0a0a0a] text-white min-h-screen">
       {/* Navigation */}
       <nav className={`navbar ${scrolled ? 'scrolled' : ''}`}>
-        <div className="max-w-6xl mx-auto px-8 flex justify-between items-center">
+        <div className="max-w-5xl mx-auto px-12 flex justify-between items-center">
           <a href="#home" className="navbar-brand">
             <img src="/logo/M.Saxter - Logo GOLD.png" alt="M. Saxter" className="h-10 md:h-12" />
           </a>
@@ -62,7 +62,7 @@ export default function Home() {
         <div className="hero-bg" style={{ backgroundImage: `url(${featuredImage})` }}></div>
         <div className="hero-overlay"></div>
         
-        <div className="relative z-10 text-center px-6 max-w-5xl">
+        <div className="relative z-10 text-center px-12 max-w-5xl">
           <span className="section-subtitle">Saxofonist Profesionist</span>
           <h1 className="text-7xl md:text-9xl font-bold mb-6">
             <img src="/logo/M.Saxter - Logo GOLD.png" alt="M. Saxter" className="h-24 md:h-32 mx-auto" />
@@ -81,8 +81,8 @@ export default function Home() {
       </section>
 
       {/* Despre Section */}
-      <section id="despre" className="py-32 px-8 section-dark">
-        <div className="max-w-6xl mx-auto">
+      <section id="despre" className="py-32 px-12 section-dark">
+        <div className="max-w-5xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             {/* Image */}
             <div className="card-rockon">
@@ -137,8 +137,8 @@ export default function Home() {
       </section>
 
       {/* Evenimente Section */}
-      <section id="evenimente" className="py-32 px-8 section-gray">
-        <div className="max-w-6xl mx-auto">
+      <section id="evenimente" className="py-32 px-12 section-gray">
+        <div className="max-w-5xl mx-auto">
           <div className="text-center mb-16">
             <span className="section-subtitle">Calendar</span>
             <h2 className="text-5xl md:text-6xl font-bold section-title">
@@ -188,8 +188,8 @@ export default function Home() {
       </section>
 
       {/* Galerie Section */}
-      <section id="galerie" className="py-32 px-8 section-dark">
-        <div className="max-w-6xl mx-auto">
+      <section id="galerie" className="py-32 px-12 section-dark">
+        <div className="max-w-5xl mx-auto">
           <div className="text-center mb-16">
             <span className="section-subtitle">Portofoliu</span>
             <h2 className="text-5xl md:text-6xl font-bold section-title">
@@ -219,8 +219,8 @@ export default function Home() {
       </section>
 
       {/* Testimoniale Section */}
-      <section id="testimoniale" className="py-32 px-8 section-gray">
-        <div className="max-w-6xl mx-auto">
+      <section id="testimoniale" className="py-32 px-12 section-gray">
+        <div className="max-w-5xl mx-auto">
           <div className="text-center mb-16">
             <span className="section-subtitle">Recenzii</span>
             <h2 className="text-5xl md:text-6xl font-bold section-title">
@@ -252,8 +252,8 @@ export default function Home() {
       </section>
 
       {/* Contact Section */}
-      <section id="contact" className="py-32 px-8 section-dark">
-        <div className="max-w-6xl mx-auto">
+      <section id="contact" className="py-32 px-12 section-dark">
+        <div className="max-w-5xl mx-auto">
           <div className="text-center mb-16">
             <span className="section-subtitle">Contact</span>
             <h2 className="text-5xl md:text-6xl font-bold section-title">
@@ -297,7 +297,7 @@ export default function Home() {
 
       {/* Footer */}
       <footer className="footer">
-        <div className="max-w-7xl mx-auto px-6">
+        <div className="max-w-5xl mx-auto px-12">
           <div className="footer-brand">
             <img src="/logo/logo-gold.png" alt="M. Saxter" className="h-16 md:h-20 mx-auto" />
           </div>
