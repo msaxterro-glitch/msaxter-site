@@ -43,8 +43,10 @@ export default function Home() {
     <main className="bg-[#0a0a0a] text-white min-h-screen">
       {/* Navigation */}
       <nav className={`navbar ${scrolled ? 'scrolled' : ''}`}>
-        <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
-          <a href="#home" className="navbar-brand">MSAXTER</a>
+        <div className="max-w-6xl mx-auto px-8 flex justify-between items-center">
+          <a href="#home" className="navbar-brand">
+            <img src="/logo/logo-gold.png" alt="M. Saxter" className="h-10 md:h-12" />
+          </a>
           <ul className="navbar-menu">
             <li><a href="#home" className="navbar-link">Acasă</a></li>
             <li><a href="#despre" className="navbar-link">Despre</a></li>
@@ -63,7 +65,7 @@ export default function Home() {
         <div className="relative z-10 text-center px-6 max-w-5xl">
           <span className="section-subtitle">Saxofonist Profesionist</span>
           <h1 className="text-7xl md:text-9xl font-bold mb-6">
-            <span className="gold-gradient">MSAXTER</span>
+            <img src="/logo/logo-gold.png" alt="M. Saxter" className="h-24 md:h-32 mx-auto" />
           </h1>
           <p className="text-2xl md:text-4xl text-white/80 mb-4 font-light">
             Cel mai bun saxofonist din <span className="text-[#d4af37] font-semibold">România</span>
@@ -79,8 +81,8 @@ export default function Home() {
       </section>
 
       {/* Despre Section */}
-      <section id="despre" className="py-32 px-6 section-dark">
-        <div className="max-w-7xl mx-auto">
+      <section id="despre" className="py-32 px-8 section-dark">
+        <div className="max-w-6xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             {/* Image */}
             <div className="card-rockon">
@@ -135,8 +137,8 @@ export default function Home() {
       </section>
 
       {/* Evenimente Section */}
-      <section id="evenimente" className="py-32 px-6 section-gray">
-        <div className="max-w-7xl mx-auto">
+      <section id="evenimente" className="py-32 px-8 section-gray">
+        <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
             <span className="section-subtitle">Calendar</span>
             <h2 className="text-5xl md:text-6xl font-bold section-title">
@@ -186,8 +188,8 @@ export default function Home() {
       </section>
 
       {/* Galerie Section */}
-      <section id="galerie" className="py-32 px-6 section-dark">
-        <div className="max-w-7xl mx-auto">
+      <section id="galerie" className="py-32 px-8 section-dark">
+        <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
             <span className="section-subtitle">Portofoliu</span>
             <h2 className="text-5xl md:text-6xl font-bold section-title">
@@ -217,8 +219,8 @@ export default function Home() {
       </section>
 
       {/* Testimoniale Section */}
-      <section id="testimoniale" className="py-32 px-6 section-gray">
-        <div className="max-w-7xl mx-auto">
+      <section id="testimoniale" className="py-32 px-8 section-gray">
+        <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
             <span className="section-subtitle">Recenzii</span>
             <h2 className="text-5xl md:text-6xl font-bold section-title">
@@ -250,8 +252,8 @@ export default function Home() {
       </section>
 
       {/* Contact Section */}
-      <section id="contact" className="py-32 px-6 section-dark">
-        <div className="max-w-7xl mx-auto">
+      <section id="contact" className="py-32 px-8 section-dark">
+        <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
             <span className="section-subtitle">Contact</span>
             <h2 className="text-5xl md:text-6xl font-bold section-title">
@@ -296,7 +298,9 @@ export default function Home() {
       {/* Footer */}
       <footer className="footer">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="footer-brand">MSAXTER</div>
+          <div className="footer-brand">
+            <img src="/logo/logo-gold.png" alt="M. Saxter" className="h-16 md:h-20 mx-auto" />
+          </div>
           <p className="footer-text">
             © 2026 Cosmin "Msaxter" - Saxofonist Profesionist din Iași. Toate drepturile rezervate.
           </p>
