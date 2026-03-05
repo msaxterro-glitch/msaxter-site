@@ -45,7 +45,7 @@ export default function Home() {
       <nav className={`navbar ${scrolled ? 'scrolled' : ''}`}>
         <div className="max-w-6xl mx-auto px-8 flex justify-between items-center">
           <a href="#home" className="navbar-brand">
-            <img src="/logo/logo-gold.png" alt="M. Saxter" className="h-10 md:h-12" />
+            <img src="/logo/M.Saxter - Logo GOLD.png" alt="M. Saxter" className="h-10 md:h-12" />
           </a>
           <ul className="navbar-menu">
             <li><a href="#home" className="navbar-link">Acasă</a></li>
@@ -65,7 +65,7 @@ export default function Home() {
         <div className="relative z-10 text-center px-6 max-w-5xl">
           <span className="section-subtitle">Saxofonist Profesionist</span>
           <h1 className="text-7xl md:text-9xl font-bold mb-6">
-            <img src="/logo/logo-gold.png" alt="M. Saxter" className="h-24 md:h-32 mx-auto" />
+            <img src="/logo/M.Saxter - Logo GOLD.png" alt="M. Saxter" className="h-24 md:h-32 mx-auto" />
           </h1>
           <p className="text-2xl md:text-4xl text-white/80 mb-4 font-light">
             Cel mai bun saxofonist din <span className="text-[#d4af37] font-semibold">România</span>
